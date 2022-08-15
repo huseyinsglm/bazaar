@@ -1,7 +1,7 @@
 import React from 'react';
 import {Home, Map2, FileDescription, ShoppingCart, Basket} from 'tabler-icons-react';
 import {ThemeIcon, UnstyledButton, Group, Text} from '@mantine/core';
-import {ROUTES} from "../routes";
+import {ROUTES} from "../../routes";
 import {useNavigate} from "react-router-dom";
 
 interface MainLinkProps {

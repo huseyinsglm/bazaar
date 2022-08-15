@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { StyledButton } from "./styles";
 import { Button as MantineButton } from "@mantine/core";
 

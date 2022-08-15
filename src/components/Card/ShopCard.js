@@ -1,9 +1,28 @@
 import {Card, Image, Text, Badge, Group} from '@mantine/core';
 import Button from "src/components/Button/Button";
-import BasketItem from "../../pages/Basket/BasketItem";
 
-export function ShopCard({image, title, rating, description, price, category}) {
 
+export function ShopCard({image, title, rating, description, price, category, id}) {
+
+
+    function addToBasket() {
+        const items = JSON.parse(localStorage.getItem('basketItems'));
+        if (items) {
+            items.push({id: id, image: image, title: title, rating: rating, description: description, price: price});
+            localStorage.setItem('basketItems', JSON.stringify(items));
+            window.dispatchEvent(new Event('storage'));
+        } else {
+            localStorage.setItem('basketItems', JSON.stringify([{
+                id: id,
+                image: image,
+                title: title,
+                rating: rating,
+                description: description,
+                price: price
+            }]));
+            window.dispatchEvent(new Event('storage'));
+        }
+    }
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder
@@ -38,7 +57,7 @@ export function ShopCard({image, title, rating, description, price, category}) {
             </Text>
 
             <Button variant="light" color="blue" fullWidth mt="md" radius="md"
-                    onClick={() => BasketItem(Image)}>
+                    onClick={addToBasket}>
                 Add to Basket
             </Button>
         </Card>

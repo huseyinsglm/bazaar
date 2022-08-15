@@ -1,34 +1,84 @@
 import React from "react";
-import {Container, Title, Image} from '@mantine/core';
-import car from "../../img/car.jpeg";
+import {ShopCard} from "../../components/Card/ShopCard";
+import {useState, useEffect} from 'react';
+import {Pagination, SimpleGrid, LoadingOverlay} from '@mantine/core';
+import {SearchBox} from "../../components/Search-Box/searchBox";
 
-const text =
-    "Bu yazıda otomobilin tarihçesi; ilk arabanın ortaya çıkışı ve dönemin etkenleri hakkında konuşacağız. Araçlarla ilgilenmeyen birini nadiren bulabilirsiniz, iki tekerlekli, üç tekerlekli veya dört tekerlekli. " +
-    "Aile üyelerinize veya arkadaşlarınıza sorabilirsiniz ve büyük olasılıkla otomobillerin tarihini öğrenmek için meraklı olduğunu söyleyeceklerdir. Öyleyse geçici olarak fren yapalım veya geri vitese geçmek için duralım: " +
-    "Otomobilin tarihçesi. Unutmayın, bir otomobil her zaman, bir içten yanmalı motorla tahrik edilen dört tekerlekli bir motorlu taşıtı ifade eder. Bildiğiniz gibi, çoğu insan dört tekerlekli araçlara veya yeni ve farklı otomobil " +
-    "modellerine büyük ilgi gösteriyor. Bu noktada ilk ve önemli soru, ilk dört tekerleği kimin yarattığını bulmak. Sonraki sorgu, ilk arabanın nerede yapıldığı veya üretildiği ile ilgili olacaktır. Ve en önemlisi, ilk dört tekerlekli aracın hangi ülkede geliştirildiğini bilmek? " +
-    "Bu üç sorunun cevabı, geri vitese geçmeyi kolaylaştıracaktır. Eh, bu üç temel sorunun yanıtları, araştırıldığı kadar kolay değil. Bunun nedeni basitçe, bir aracı tasarlama veya planlama ve ardından o dönemde mevcut araç veya ekipmanlarla yapma sürecinin çok uzun bir " +
-    "zaman ve para gerektirmesidir. Daha önce hiç kimse dört tekerlekli bir araç görmediğinden, yıllarca, hatta yüzyıllardır daha çok bir deneydi.\n" +
-    "\n" +
-    "Her hakkı arabam.com’da saklıdır. Kaynak gösterilerek dahi alıntı yapılamaz."
-const HomePage = () => {
+
+const Shop = () => {
+
+    const [activePage] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+
+    const [query, setQuery] = useState("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const checkCharacterLength = (searchInput) => {
+        if (searchInput.length >= 3) {
+            loadData(1);
+        }
+    };
+
+    useEffect(() => {
+        checkCharacterLength(query);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query]);
+
+
+    useEffect(() => {
+        loadData(1);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const loadData = (pageNumber) => {
+        setLoading(true);
+        const skip = pageNumber * 12 - 12;
+        const limit = 12;
+        fetch(`https://dummyjson.com/products/search?q=${query}&skip=${skip}&limit=${limit}`)
+            .then((data) => data.json())
+            .then((response) => {
+                setProducts(response.products);
+                setLoading(false)
+            })
+            .catch(() => {
+                setLoading(false);
+            });
+    };
+
+    const onChange = (pageNumber) => {
+        loadData(pageNumber);
+    }
+
+
     return (
-        <>
-            <Container>
-                <Title order={1}>Otomobilin Tarihçesi; İlk Arabanın Ortaya Çıkışı Ve Etkenler</Title>
-                <br/>
-                <Image
-                    height={500}
-                    width={900}
-                    src={car}
-                    alt=""
-                />
-                {text}
-            </Container>
+
+        <div style={{width: "100%", position: 'relative'}}>
+
+            <SearchBox onChange={(e) => setQuery(e.target.value)}/>
+
+            <LoadingOverlay visible={loading} overlayBlur={2}/>
 
 
-        </>
+            <SimpleGrid cols={3} spacing={50} style={{marginTop: '30px'}}>
+                {products?.map((product) => {
+                        return (
+                            <ShopCard image={product.thumbnail} title={product.title} id={product.id}
+                                      rating={product.rating} description={product.description} price={product.price}
+                                      category={product.category}/>
+                        );
+                    }
+                )
+                }
+
+            </SimpleGrid>
+
+            <Pagination position={"center"} align={"center"} page={activePage} onChange={onChange} total={9}
+                        size={"lg"} spacing={"md"} style={{margin: "3rem"}}/>
+
+        </div>
+
     );
 };
 
-export default HomePage;
+export default Shop;

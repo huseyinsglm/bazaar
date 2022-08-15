@@ -11,22 +11,34 @@ const Basket = () => {
     const products = JSON.parse(localStorage.getItem('basketItems') ?? "[]");
     const [updatedProduct, setUpdatedProduct] = useState(products);
 
+    const [totalPrice, setTotalPrice] = useState(0);
+
+
     useEffect(() => {
-        const setProducts = () => {
-            const products = JSON.parse(localStorage.getItem('basketItems') ?? "[]");
-            setUpdatedProduct(products);
-        }
-        window.addEventListener('storage', setProducts);
-        return()=>{
-            window.removeEventListener('storage',setProducts);
-        }
-    }, []);
-
-
+            const setProducts = () => {
+                const products = JSON.parse(localStorage.getItem('basketItems') ?? "[]");
+                setUpdatedProduct(products);
+                calculateTotalPrice(products);
+            }
+            const calculateTotalPrice = (products: any) => {
+                let total = 0;
+                for (let i = 0; i < products.length; i++) {
+                    total = products[i].price + total;
+                }
+                setTotalPrice(total);
+            }
+            calculateTotalPrice(products);
+            window.addEventListener('storage', setProducts);
+            return () => {
+                window.removeEventListener('storage', setProducts);
+            }
+        },
+        [products]);
     return (
         <Container>
             <BasketItemContainer>
-                {updatedProduct?.map((basketItem, index) => {
+                {updatedProduct?.map((basketItem: { image: string; title: string; rating: number; description: string; price: number; id: number; },
+                                      index: any) => {
                     return (
                         <BasketItem
                             key={index}
@@ -50,7 +62,7 @@ const Basket = () => {
                 <div style={{display: "flex", justifyContent: "end"}}>
                     <div style={{height: "40px", marginBottom: "1rem"}}/>
                 </div>
-                <BasketSummary/>
+                <BasketSummary totalPrice={totalPrice}/>
             </SummaryContainer>
         </Container>
     );
