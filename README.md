@@ -10,6 +10,6 @@
 #### Mantine
 #### Rooter
 
-<a href="https://book-shop-ek.netlify.app/">
+<a href="https://bazaar-plus.netlify.app/">
     <button>Here is the Link!</button>
 </a>
