@@ -1,9 +1,13 @@
 import React from 'react';
 import { ChevronRight, ChevronLeft } from 'tabler-icons-react';
 import { UnstyledButton, Group, Avatar, Text, Box, useMantineTheme } from '@mantine/core';
+import {useNavigate} from "react-router-dom";
+
 
 export function User() {
     const theme = useMantineTheme();
+    const navigate = useNavigate();
+
 
     return (
         <Box
@@ -15,6 +19,8 @@ export function User() {
             }}
         >
             <UnstyledButton
+
+                onClick={() => navigate("/contact")}
                 sx={{
                     display: 'block',
                     width: '100%',
@@ -34,7 +40,10 @@ export function User() {
                         radius="xl"
                     />
                     <Box sx={{ flex: 1 }}>
-                        <Text size="sm" weight={500}>
+                        <Text size="sm" weight={400}>
+                            İletişim ve Destek
+                        </Text>
+                        <Text size="sm" weight={400}>
                             Hüseyin Sağlam
                         </Text>
                         <Text color="dimmed" size="xs">

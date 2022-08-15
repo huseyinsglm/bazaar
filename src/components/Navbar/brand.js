@@ -2,6 +2,7 @@ import React from 'react';
 import { Group, Box } from '@mantine/core';
 import { Logo } from './logo';
 
+
 export function Brand() {
 
     return (
@@ -15,7 +16,7 @@ export function Brand() {
                 }`,
             })}
         >
-            <Group position="apart">
+            <Group position="center" spacing="xl">
                 <Logo />
             </Group>
         </Box>

@@ -10,6 +10,7 @@ export const theme = {
     backgroundColor: "#f7ecf9",
 };
 
+// @ts-ignore
 export const MantineTheme: MantineThemeOverride = {
     fontFamily: "THICCCBOI",
     fontFamilyMonospace: "THICCCBOI",
@@ -79,13 +80,13 @@ export const DotsShape = styled.div`
 `;
 
 export const Layout = styled.div`
+  width: 70%;
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap !important;
+  align-items: center;
   justify-content: space-around;
-  background: ${(props) => `linear-gradient(0deg, ${props.theme.greyColor}, rgba(255, 255, 255, 0) 100%)`};
+  flex-wrap: wrap;
   height: 100%;
-  width: 100%;
+  padding-bottom: 50px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;

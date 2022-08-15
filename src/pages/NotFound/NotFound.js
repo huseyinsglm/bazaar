@@ -1,8 +1,8 @@
 import React from "react";
 import {Container, Image} from '@mantine/core';
-import not from "../../img/404_not _found.jpeg";
+import note from "../../img/404_not _found.jpeg";
 
-const text="BACK HOME"
+const text="ANA SAYFAYA GİDİN"
 const NotFound = () => {
     return (
         <>
@@ -10,7 +10,7 @@ const NotFound = () => {
                 <Image
                     height={500}
                     width={900}
-                    src={not}
+                    src={note}
                     alt=""
                 />
                 <br/>
